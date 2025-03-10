@@ -7,8 +7,8 @@ using Zenject;
 namespace Project.Player {
     [RequireComponent(typeof(PlayerController), typeof(Animator))]
     public class PlayerAnimator : MonoBehaviour {
-        private const int attackAnimationNormalizeCoeff = 3;
-        private const string animationParemeterAttackSpeed = "AttackSpeed";
+        private const float attackAnimationNormalizeCoeff = 3.003f;
+        private const string animationParameterAttackSpeed = "AttackSpeed";
 
         // Components
         private PlayerController playerController;
@@ -34,7 +34,7 @@ namespace Project.Player {
             skins = GetComponentsInChildren<SkinnedMeshRenderer>();
 
 
-            animator.SetFloat(animationParemeterAttackSpeed, playerController.GetAttackSpeed() * attackAnimationNormalizeCoeff);
+            animator.SetFloat(animationParameterAttackSpeed, playerController.GetAttackSpeed() * attackAnimationNormalizeCoeff);
 
             inputHandler.onMove += MoveAnimation;
             playerController.onAttack += AttackAnimation;

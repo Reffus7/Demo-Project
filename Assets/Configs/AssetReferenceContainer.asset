@@ -27,6 +27,11 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  _mobileCanvas:
+    m_AssetGUID: 49f3d763702c2d14a86afbb2dac3bdd2
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   _mapConfig:
     m_AssetGUID: 0e08ee2722bf2464788faa15be09542e
     m_SubObjectName: 

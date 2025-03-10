@@ -23,7 +23,9 @@ public class SceneLoader {
 
     }
 
-    public async UniTaskVoid LoadScene(AssetReference sceneReference) {
+    public async UniTaskVoid LoadSceneAsync(AssetReference sceneReference) {
+        await UniTask.WaitWhile(()=>loadingScreen==null);
+
         loadingScreen.SetActive(true);
 
         canAnimateUI = false;

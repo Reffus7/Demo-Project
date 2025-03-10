@@ -10,6 +10,7 @@ namespace Project.Config {
         [Header("UI")]
         [SerializeField] private AssetReference _playerUI;
         [SerializeField] private AssetReference _loadingScreen;
+        [SerializeField] private AssetReference _mobileCanvas;
 
         [Header("Config")]
         [SerializeField] private AssetReference _mapConfig;
@@ -26,6 +27,8 @@ namespace Project.Config {
         public AssetReference player => _player;
         public AssetReference playerUI => _playerUI;
         public AssetReference loadingScreen => _loadingScreen;
+        public AssetReference mobileCanvas=>_mobileCanvas;
+
         public AssetReference mapConfig => _mapConfig;
         public AssetReference roomConfig => _roomConfig;
         public AssetReference enemyConfig => _enemyConfig;

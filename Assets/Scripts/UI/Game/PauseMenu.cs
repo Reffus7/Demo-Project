@@ -56,11 +56,11 @@ namespace Project.UI {
         }
 
         private void GoToMainMenu() {
-            sceneLoader.LoadScene(assetReferenceContainer.mainMenuScene).Forget();
+            sceneLoader.LoadSceneAsync(assetReferenceContainer.mainMenuScene).Forget();
         }
 
         private void RestartLevel() {
-            sceneLoader.LoadScene(assetReferenceContainer.gameScene).Forget();
+            sceneLoader.LoadSceneAsync(assetReferenceContainer.gameScene).Forget();
         }
 
         private void HideExitMenu() {

@@ -63,12 +63,9 @@ namespace Project.Player {
             this.dataSaver = dataSaver;
             this.cancellationToken = cancellationToken;
 
-
         }
 
         public void Init(PlayerConfig playerConfig) {
-
-
             moveSpeedProgress = playerConfig.moveSpeedProgress;
             rotationSpeedProgress = playerConfig.rotationSpeedProgress;
             dodgeDistanceProgress = playerConfig.dodgeDistanceProgress;
@@ -117,10 +114,14 @@ namespace Project.Player {
         }
 
         private void Dodge() {
+            
+
             DodgeAsync().Forget();
         }
 
+
         private void Attack() {
+
             AttackAsync().Forget();
         }
 
@@ -163,8 +164,8 @@ namespace Project.Player {
 
         private async UniTaskVoid DodgeAsync() {
             if (!canDodge) return;
-
             canDodge = false;
+
             health.SetInvincibility(true);
             isDodging = true;
 
@@ -201,9 +202,11 @@ namespace Project.Player {
 
         }
 
+
+
+
         private async UniTaskVoid AttackAsync() {
             if (isAttacking) return;
-
             isAttacking = true;
 
             onAttack?.Invoke();
@@ -211,11 +214,16 @@ namespace Project.Player {
             float duration = 1 / attackSpeed;
             float halfDuration = duration / 2;
 
-            await UniTask.Delay((int)(halfDuration * 1000), cancellationToken: cancellationToken);
+
+
+            UniTask halfDurationTask = UniTask.Delay((int)(halfDuration * 1000), cancellationToken: cancellationToken);
+            UniTask fullDurationTask = UniTask.Delay((int)(duration * 1000), cancellationToken: cancellationToken);
+
+            await halfDurationTask;
 
             PerformAttack();
 
-            await UniTask.Delay((int)(halfDuration * 1000), cancellationToken: cancellationToken);
+            await fullDurationTask;
 
             isAttacking = false;
 
@@ -227,6 +235,7 @@ namespace Project.Player {
         }
 
         private void PerformAttack() {
+
             Collider[] hitEnemies = Physics.OverlapSphere(transform.position + transform.forward * attackRange / 2, attackRange / 2, enemyLayer);
 
             foreach (var enemy in hitEnemies) {

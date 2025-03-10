@@ -1,9 +1,7 @@
 using Cysharp.Threading.Tasks;
-using Project.Config;
 using Project.Data;
 using Project.Factory;
 using Project.Map;
-using Project.Player;
 using System.Threading;
 using UnityEngine;
 using Zenject;
@@ -11,19 +9,17 @@ using Zenject;
 namespace Project.Init {
 
     public class GameInstaller : MonoInstaller {
-        [SerializeField] private AssetReferenceContainer assetReferenceContainer;
 
         [SerializeField] private Projectile projectilePrefab;
-        //[SerializeField] private PlayerController playerPrefab;
-        //[SerializeField] private RectTransform playerUiPrefab;
+        //[SerializeField] private MobileCanvas mobileCanvas;
 
         [SerializeField] private Canvas canvas;
 
         public override void InstallBindings() {
             //from instance
             Container.Bind<Projectile>().FromInstance(projectilePrefab).AsSingle();
-            //Container.Bind<AssetReferenceContainer>().FromInstance(assetReferenceContainer).AsSingle();
-            Container.Bind<Canvas>().FromInstance(canvas).AsSingle();
+            Container.Bind<Canvas>().FromInstance(canvas).AsSingle();  
+            //Container.Bind<MobileCanvas>().FromInstance(mobileCanvas).AsSingle();
 
             //have zenject interfaces
             Container.BindInterfacesAndSelfTo<LevelController>().AsSingle();
@@ -40,7 +36,12 @@ namespace Project.Init {
 
 
             //my interfaces
+#if UNITY_ANDROID
+            Container.Bind<IInputHandler>().To<MobileInputHandler>().AsSingle();
+#else
             Container.Bind<IInputHandler>().To<DesktopInputHandler>().AsSingle();
+
+#endif
             Container.Bind<IDataSaver>().To<DataSaver>().AsSingle();
 
             //factories

@@ -630,13 +630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3354941dfe317cc44af4e7e27256f726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  assetReferenceContainer: {fileID: 11400000, guid: b287f54cfbc3cb149ae69772e095d68a,
-    type: 2}
   projectilePrefab: {fileID: 560272328136053986, guid: 5e833964b26c9394987012cbe56126b9,
-    type: 3}
-  playerPrefab: {fileID: 4439378985724736522, guid: d448edebcef4ddc41b52ab16dbef5959,
-    type: 3}
-  playerUiPrefab: {fileID: 4727253806149040230, guid: 8d5e715c519bd37429b5c7326f2aab80,
     type: 3}
   canvas: {fileID: 1452543138790279438}
 --- !u!114 &1842252145

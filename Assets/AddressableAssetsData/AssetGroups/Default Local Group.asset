@@ -97,6 +97,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 49f3d763702c2d14a86afbb2dac3bdd2
+    m_Address: Assets/Prefabs/UI/Game/MobileCanvas.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 70a5f532b8cd2864c819556250adc1ed, type: 2}
   m_SchemaSet:

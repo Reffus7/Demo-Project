@@ -63,8 +63,7 @@ namespace Project.UI {
         }
 
         private void StartLevel() {
-            //sceneLoader.LoadScene(SceneNames.GameScene.ToString()).Forget();
-            sceneLoader.LoadScene(assetReferenceContainer.gameScene).Forget();
+            sceneLoader.LoadSceneAsync(assetReferenceContainer.gameScene).Forget();
 
         }
 
