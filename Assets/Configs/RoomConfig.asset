@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18c6ab0905385ef4d8b54399135ed027, type: 3}
+  m_Name: RoomConfig
+  m_EditorClassIdentifier: 
+  _wallPrefab: {fileID: 288074452641336483, guid: 1c17b7e7f96777e47be5fd64f6bdb812,
+    type: 3}
+  _floorPrefab: {fileID: 7703524427286562322, guid: 3cfaa2335f038ac44b82ee44ac3edde6,
+    type: 3}
+  _lightPrefab: {fileID: 4732359066580643485, guid: 773df4494ed47fb4db0722407ce9a3ea,
+    type: 3}
+  _objectPrefabs:
+  - {fileID: 4652372681009794825, guid: 3e7623aedbc114f41a7034bf852e85a2, type: 3}
+  - {fileID: 9210463991391930213, guid: fa1d6a20a97ef1f44a12b5a1afd166aa, type: 3}
+  - {fileID: 662836112800378179, guid: 4f2370a71f5e3814589c19158851b3f4, type: 3}
+  - {fileID: 1397919426345451463, guid: a505c22393612d54795be502024b144f, type: 3}
+  - {fileID: 1707905958164905267, guid: c8ccf857e37b3fe44be07b9f7817c726, type: 3}
+  _enemyPrefabs:
+  - {fileID: 7441365994565849061, guid: 352352cf93cff9646ae28295187b6fde, type: 3}
+  - {fileID: -7471069404293858452, guid: 5deaaa9f3cd66e94584bf2f2501147fa, type: 3}
+  - {fileID: -4753774676620384140, guid: bedaef69dd7f680478c7f533cc8fc2dd, type: 3}
+  _wallHeight: 2
+  _wallWidth: 0.1
+  _minDistanceBetweenObjects: 3
+  _offsetFromWalls: 2
+  _minMaxSize: {x: 15, y: 20}
+  _minMaxObjects: {x: 2, y: 5}
+  _minEnemiesProgress:
+    calculationMethod: 0
+    baseValue: 1
+    coeff: 0.2
+    minValue: -3.4028235e+38
+    maxValue: 4
+    isDecreasing: 0
+    manualValues: []
+  _maxEnemiesProgress:
+    calculationMethod: 0
+    baseValue: 1
+    coeff: 0.4
+    minValue: -3.4028235e+38
+    maxValue: 5
+    isDecreasing: 0
+    manualValues: []

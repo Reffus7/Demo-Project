@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: General_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: b72f14718a4955747808185316ec09c1, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 139545063424
+    m_Localized: Start level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 374128291840
+    m_Localized: Upgrade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 486871183360
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 609487466496
+    m_Localized: Level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9600582070272
+    m_Localized: Value
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10039293685760
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11883730481152
+    m_Localized: 'Total points:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11939208540160
+    m_Localized: 'Points left:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15584574615552
+    m_Localized: Move speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24532358836224
+    m_Localized: Rotation speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24698973368320
+    m_Localized: Dodge distance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24712323837952
+    m_Localized: Dodge duration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24724072083456
+    m_Localized: Dodge invincibility
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24735195377664
+    m_Localized: Dodge cooldown
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24744523509760
+    m_Localized: Attack range
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24754354958336
+    m_Localized: Attack speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24765243371520
+    m_Localized: Attack damage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24776425385984
+    m_Localized: Health
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27693790310400
+    m_Localized: Cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27609115701248
+    m_Localized: Restart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27670151213056
+    m_Localized: Main menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1101202822049792
+    m_Localized: Loading...
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b56d8249122340c4e958bc9f62dcfe98, type: 3}
+  m_Name: ExperienceConfig
+  m_EditorClassIdentifier: 
+  _playerLevelExperienceProgress:
+    calculationMethod: 1
+    baseValue: 40
+    coeff: 1.2
+    minValue: -3.4028235e+38
+    maxValue: 3.4028235e+38
+    isDecreasing: 0
+    manualValues: []
+  _enemyExperienceProgress:
+    calculationMethod: 1
+    baseValue: 100
+    coeff: 1.2
+    minValue: -3.4028235e+38
+    maxValue: 3.4028235e+38
+    isDecreasing: 0
+    manualValues: []

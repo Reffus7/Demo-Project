@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: General Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: General
+  m_TableCollectionNameGuidString: b72f14718a4955747808185316ec09c1
+  m_Entries:
+  - m_Id: 139545063424
+    m_Key: StartGameButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 374128291840
+    m_Key: UpgradeMenuButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 486871183360
+    m_Key: ExitGameButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 609487466496
+    m_Key: Level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9600582070272
+    m_Key: Value
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10039293685760
+    m_Key: BackButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11883730481152
+    m_Key: TotalPoints
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11939208540160
+    m_Key: PointsLeft
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15584574615552
+    m_Key: MoveSpeed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24532358836224
+    m_Key: RotationSpeed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24698973368320
+    m_Key: DodgeDistance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24712323837952
+    m_Key: DodgeDuration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24724072083456
+    m_Key: DodgeInvincibility
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24735195377664
+    m_Key: DodgeCooldown
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24744523509760
+    m_Key: AttackRange
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24754354958336
+    m_Key: AttackSpeed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24765243371520
+    m_Key: AttackDamage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24776425385984
+    m_Key: MaxHealth
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27609115701248
+    m_Key: RestartButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27670151213056
+    m_Key: MainMenuButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27693790310400
+    m_Key: CancelButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1101202822049792
+    m_Key: LoadingText
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 3589067789852213272
+  references:
+    version: 2
+    RefIds:
+    - rid: 3589067789852213272
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1741284806854

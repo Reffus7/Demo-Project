@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb0762a91385224dafcf068dc4c12e2, type: 3}
+  m_Name: MapConfig
+  m_EditorClassIdentifier: 
+  _portalPrefab: {fileID: 6357555062726204379, guid: df3d7c24f48a99745a7a7ad453cabbba,
+    type: 3}
+  _portalsInRoom: 4
+  _roomCountProgress:
+    calculationMethod: 0
+    baseValue: 2
+    coeff: 0.25
+    minValue: -3.4028235e+38
+    maxValue: 10
+    isDecreasing: 0
+    manualValues: []

@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 057c36962712efd4bb9977b50941bb22, type: 3}
+  m_Name: AssetReferenceContainer
+  m_EditorClassIdentifier: 
+  _player:
+    m_AssetGUID: d448edebcef4ddc41b52ab16dbef5959
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _playerUI:
+    m_AssetGUID: 8d5e715c519bd37429b5c7326f2aab80
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _loadingScreen:
+    m_AssetGUID: ccc71780b550d4f41a1723ed705db559
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _mapConfig:
+    m_AssetGUID: 0e08ee2722bf2464788faa15be09542e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _roomConfig:
+    m_AssetGUID: ac09a2fdd4960e14f95b50e5bcf876b0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _enemyConfig:
+    m_AssetGUID: d0b5effa8311ab548be9d2fa14d9e3a2
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _experienceConfig:
+    m_AssetGUID: c0610f52f4b5a684db82a59dbe7ae1b5
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _playerConfig:
+    m_AssetGUID: 93fa68eff0635f94c8c9e5acef1fcf38
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _mainMenu:
+    m_AssetGUID: ecad005e19419ed43b386d98eaa5a71c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _gameScene:
+    m_AssetGUID: a7f4386ca8c6b024aab26ca43b938bc7
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
