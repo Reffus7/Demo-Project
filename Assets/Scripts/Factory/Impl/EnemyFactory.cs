@@ -3,6 +3,7 @@ using Project.Config;
 using Project.Enemy;
 using Project.HealthSpace;
 using Project.Progress;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -37,6 +38,8 @@ namespace Project.Factory {
 
         }
 
+        private List<ObjectPool> pools = new();
+
         private async UniTaskVoid InitAsync() {
             RoomConfig roomConfig = await assetProvider.LoadAssetAsync<RoomConfig>(assetReferenceContainer.roomConfig);
             prefabs = roomConfig.enemyPrefabs;
@@ -44,27 +47,31 @@ namespace Project.Factory {
             enemyConfig = await assetProvider.LoadAssetAsync<EnemyConfig>(assetReferenceContainer.enemyConfig);
             maxHealthProgress = enemyProgressVarFactory.Create(enemyConfig.healthMaxProgress);
 
+            foreach (EnemyBase prefab in prefabs) {
+                pools.Add(new ObjectPool(zenjectInstantiator, prefab.gameObject));
+            }
         }
 
-
-        // будет использовать objectpool, если он пуст, то фабрика создает.
-        // так же фабрика возвращает в пул. пул по большей мере для хранения
-        // сброс настроек тоже будет в фабрике
         public async UniTask<EnemyBase> Create() {
             await UniTask.WaitWhile(() => prefabs == null || enemyConfig == null);
 
-            EnemyBase prefab = prefabs[Random.Range(0, prefabs.Length)];
+            int enemyType = Random.Range(0, pools.Count);
+            ObjectPool currentPool = pools[enemyType];
 
-            EnemyBase enemy = zenjectInstantiator.Instantiate(prefab).GetComponent<EnemyBase>();
-            enemy.Init(enemyConfig);
+            GameObject enemy = currentPool.Get();
+
+            EnemyBase enemyComponent = enemy.GetComponent<EnemyBase>();
+            enemyComponent.enabled = true;
+            enemyComponent.Init(enemyConfig, currentPool);
 
             EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
             enemyHealth.InitMaxHealth((int)maxHealthProgress.Value);
 
             EnemyAnimator enemyAnimator = enemy.GetComponent<EnemyAnimator>();
-            enemyAnimator.InitAttackSpeed(enemy.GetAttackSpeed());
+            enemyAnimator.enabled = true;
+            enemyAnimator.InitAttackSpeed(enemyComponent.GetAttackSpeed());
 
-            return enemy;
+            return enemyComponent;
 
         }
 

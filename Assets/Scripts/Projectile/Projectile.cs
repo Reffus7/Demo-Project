@@ -2,6 +2,8 @@ using Project.HealthSpace;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour {
+    private ObjectPool objectPool;
+
     [SerializeField] private float moveSpeed;
 
     private bool isBounced;
@@ -9,16 +11,11 @@ public class Projectile : MonoBehaviour {
 
     private Rigidbody rb;
 
-    public void DisableBounce() {
-        isBounced = true;
-    }
-
-    public void SetDamage(int damage) {
+    public void Init(int damage, float moveSpeed, bool disableBounce, ObjectPool objectPool) {
+        this.objectPool = objectPool;
         this.damage = damage;
-    }
-
-    public void SetSpeed(float speed) {
-        moveSpeed = speed;
+        this.moveSpeed = moveSpeed;
+        isBounced = disableBounce;
     }
 
     private void Start() {
@@ -31,15 +28,16 @@ public class Projectile : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player")) {
-            Health health= collision.gameObject.GetComponent<Health>();
+            Health health = collision.gameObject.GetComponent<Health>();
             if (health != null) {
                 health.TakeDamage(damage);
             }
-            Destroy(gameObject);
+            objectPool.Return(gameObject);
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle")) {
             if (isBounced) {
-                Destroy(gameObject);
+                objectPool.Return(gameObject);
+
                 return;
             }
 

@@ -290,4 +290,4 @@ MonoBehaviour:
   content: {fileID: 5770112044782242725}
   roomIconPrefab: {fileID: 7870782077010529944, guid: 2c8723fa1cdb5b84c91d783f2a74d0c9,
     type: 3}
-  scale: 3
+  scale: 4

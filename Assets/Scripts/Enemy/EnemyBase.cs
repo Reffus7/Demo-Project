@@ -28,7 +28,9 @@ namespace Project.Enemy {
         private EnemyProgressVar damageProgress;
         private EnemyProgressVar attackSpeedProgress;
 
-        protected float attackDuration => 1.15f / attackSpeed;
+
+        private const float attackClipDuration = 1.15f;
+        protected float attackDuration => attackClipDuration / attackSpeed;
 
         public event System.Action onAttack;
         public event System.Action<bool> onMove;
@@ -38,6 +40,8 @@ namespace Project.Enemy {
         protected bool isReloading = false;
         protected bool isAttacking;
 
+        private ObjectPool enemyObjectPool;
+
         //components
         private Rigidbody rb;
         private EnemyHealth health;
@@ -45,26 +49,36 @@ namespace Project.Enemy {
         // construct
         protected Transform playerTransform;
         protected CancellationToken cancellationToken;
-        private Projectile projectilePrefab;
         private EnemyProgressVarFactory enemyProgressVarFactory;
-
+        private ProjectileFactory projectileFactory;
 
         [Inject]
         public void Construct(
             PlayerController playerController,
-            Projectile projectilePrefab,
             EnemyProgressVarFactory enemyProgressVarFactory,
-            CancellationToken cancellationToken
+            CancellationToken cancellationToken,
+            ProjectileFactory projectileFactory
 
         ) {
 
             playerTransform = playerController.transform;
             this.cancellationToken = cancellationToken;
-            this.projectilePrefab = projectilePrefab;
             this.enemyProgressVarFactory = enemyProgressVarFactory;
+            this.projectileFactory = projectileFactory;
         }
 
-        public void Init(EnemyConfig enemyConfig) { 
+        private bool firstInit = true;
+        private bool isKilled = false;
+        public bool isAlive => !isKilled;
+
+        public void Init(EnemyConfig enemyConfig, ObjectPool enemyObjectPool) {
+            if (!firstInit) {
+                isKilled = false;
+            }
+
+            firstInit = false;
+
+            this.enemyObjectPool = enemyObjectPool;
 
             attackRange = enemyConfig.attackRange;
             fleeRange = enemyConfig.fleeRange;
@@ -90,13 +104,18 @@ namespace Project.Enemy {
         }
 
         private void HandleDeath() {
-            Destroy(gameObject, 1);
+            HandleDeathAsync().Forget();
+        }
+
+        private async UniTaskVoid HandleDeathAsync() {
+            await UniTask.Delay(1000, cancellationToken: cancellationToken);
+            enemyObjectPool.Return(gameObject);
+            isKilled = true;
         }
 
         public float GetAttackSpeed() {
             return attackSpeed;
         }
-
 
         private void FixedUpdate() {
             if (playerTransform == null) return;
@@ -106,11 +125,9 @@ namespace Project.Enemy {
             if (!isReloading) {
                 if (distanceToPlayer <= attackRange) {
                     if (RotatedToDirection(playerDirection) && !isAttacking) {
-                        Attack();
                         onAttack?.Invoke();
-
+                        Attack();
                     }
-
                     SmoothRotate(playerDirection);
                 }
                 else {
@@ -146,11 +163,11 @@ namespace Project.Enemy {
 
             if (Physics.Raycast(transform.position + Vector3.up, direction, out hit, rayDistance)) {
                 Vector3[] rayDirections = new Vector3[] {
-            Quaternion.Euler(0, 45, 0) * direction,
-            Quaternion.Euler(0, -45, 0) * direction,
-            Quaternion.Euler(0, 90, 0) * direction,
-            Quaternion.Euler(0, -90, 0) * direction
-        };
+                    Quaternion.Euler(0, 45, 0) * direction,
+                    Quaternion.Euler(0, -45, 0) * direction,
+                    Quaternion.Euler(0, 90, 0) * direction,
+                    Quaternion.Euler(0, -90, 0) * direction
+                };
 
                 foreach (var rayDir in rayDirections) {
                     if (!Physics.Raycast(transform.position + Vector3.up, rayDir, rayDistance)) {
@@ -222,10 +239,9 @@ namespace Project.Enemy {
         }
 
         protected void InstantiateProjectile(Quaternion rotation, bool disableBounce = false) {
-            Projectile projectile = Instantiate(projectilePrefab, transform.position + Vector3.up, rotation);
-            projectile.SetDamage(damage);
-            projectile.SetSpeed(projectileSpeed);
-            if (disableBounce) projectile.DisableBounce();
+            GameObject projectile = projectileFactory.Create(damage, projectileSpeed, disableBounce);
+            projectile.transform.position = transform.position + Vector3.up;
+            projectile.transform.rotation = rotation;
         }
 
         protected async UniTask Reload() {

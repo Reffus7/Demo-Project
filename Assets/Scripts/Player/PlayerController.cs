@@ -103,9 +103,11 @@ namespace Project.Player {
 
         private void OnDestroy() {
             if (health != null) health.OnDie -= HandleDeath;
-            inputHandler.onMove -= ReadMove;
-            inputHandler.onDodge -= Dodge;
-            inputHandler.onAttack -= Attack;
+            if (inputHandler != null) {
+                inputHandler.onMove -= ReadMove;
+                inputHandler.onDodge -= Dodge;
+                inputHandler.onAttack -= Attack;
+            }
 
         }
 
@@ -114,7 +116,7 @@ namespace Project.Player {
         }
 
         private void Dodge() {
-            
+
 
             DodgeAsync().Forget();
         }

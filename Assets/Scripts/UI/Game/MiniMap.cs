@@ -16,17 +16,28 @@ namespace Project.UI {
 
         private List<Image> roomIconList = new();
         private List<RoomInfo> roomInfoList = new();
+        private ObjectPool objectPool = null;
 
         private Transform playerTransform;
         private CancellationToken cancellationToken;
 
         [Inject]
-        public void Construct(PlayerController player, LevelController levelController, CancellationToken cancellationToken) {
+        public void Construct(
+            PlayerController player,
+            LevelController levelController,
+            CancellationToken cancellationToken,
+            ZenjectInstantiator zenjectInstantiator
+
+        ) {
             playerTransform = player.transform;
             this.cancellationToken = cancellationToken;
 
+            objectPool = new ObjectPool(zenjectInstantiator, roomIconPrefab.gameObject);
+
+
             levelController.onPrepareMap += CreateMiniMap;
         }
+
 
         private void Start() {
             CheckRoomClearedAsync().Forget();
@@ -39,22 +50,23 @@ namespace Project.UI {
         }
 
         private void ClearMiniMap() {
-            foreach (Image icon in roomIconList) {
-                Destroy(icon.gameObject);
-            }
-            roomIconList.Clear();
+            objectPool.ReturnAll();
         }
 
         private void CreateMiniMap(List<RoomInfo> roomInfoList) {
+            if (objectPool == null) Debug.LogError("pool is null");
+
             ClearMiniMap();
             this.roomInfoList = roomInfoList;
-
             foreach (RoomInfo info in roomInfoList) {
-                Image roomIcon = Instantiate(roomIconPrefab, content);
-                roomIcon.transform.localPosition = new Vector3(info.roomPosition.x * scale, info.roomPosition.z * scale, 0);
-                roomIcon.GetComponent<RectTransform>().sizeDelta = (Vector3)info.size * scale;
+                GameObject roomIconGO = objectPool.Get();
+                Image roomIconImage = roomIconGO.GetComponent<Image>();
+                roomIconImage.color = Color.red;
+                roomIconGO.transform.SetParent(content);
+                roomIconGO.transform.localPosition = new Vector3(info.roomPosition.x * scale, info.roomPosition.z * scale, 0);
+                roomIconGO.GetComponent<RectTransform>().sizeDelta = (Vector3)info.size * scale;
 
-                roomIconList.Add(roomIcon);
+                roomIconList.Add(roomIconImage);
             }
         }
 

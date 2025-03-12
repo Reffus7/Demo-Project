@@ -19,10 +19,12 @@ namespace Project.UI {
         [SerializeField] private Button exitGameButton;
         [SerializeField] private Button backToMainMenuButton;
 
-        [SerializeField] private GameObject mainMenu;
-        [SerializeField] private GameObject upgradeMenu;
+        //[SerializeField] private GameObject mainMenu;
+        //[SerializeField] private GameObject upgradeMenu;
+        [SerializeField] private CanvasGroup mainMenu;
+        [SerializeField] private CanvasGroup upgradeMenu;
 
-        private List<GameObject> menuList;
+        private List<CanvasGroup> menuList;
 
         private IDataSaver dataSaver;
         private SceneLoader sceneLoader;
@@ -30,10 +32,10 @@ namespace Project.UI {
 
         [Inject]
         public void Construct(
-            IDataSaver dataSaver, 
-            SceneLoader sceneLoader, 
+            IDataSaver dataSaver,
+            SceneLoader sceneLoader,
             AssetReferenceContainer assetReferenceContainer
-            
+
         ) {
 
             this.dataSaver = dataSaver;
@@ -47,7 +49,7 @@ namespace Project.UI {
             exitGameButton.onClick.AddListener(ExitGame);
             backToMainMenuButton.onClick.AddListener(() => OpenMenu(mainMenu));
 
-            menuList = new List<GameObject>() { mainMenu, upgradeMenu };
+            menuList = new List<CanvasGroup>() { mainMenu, upgradeMenu };
 
             SetLocalizedStringText();
             LocalizationSettings.SelectedLocaleChanged += OnLocaleChanged;
@@ -67,11 +69,19 @@ namespace Project.UI {
 
         }
 
-        private void OpenMenu(GameObject menu) {
-            foreach (GameObject go in menuList) {
-                go.SetActive(false);
+        private void OpenMenu(CanvasGroup menu) {
+            foreach (CanvasGroup canvasGroup in menuList) {
+                canvasGroup.alpha = 0;
+                canvasGroup.interactable = false;
+                canvasGroup.blocksRaycasts = false;
+                //go.SetActive(false);
             }
-            menu.SetActive(true);
+            menu.alpha = 1;
+            menu.interactable = true;
+            menu.blocksRaycasts = true;
+
+
+            //menu.SetActive(true);
         }
 
         private void ExitGame() {

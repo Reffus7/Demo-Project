@@ -33,17 +33,19 @@ namespace Project.Enemy {
 
         }
 
+        private float attackSpeed;
+
         public void InitAttackSpeed(float attackSpeed) {
-            animator.SetFloat("AttackSpeed", attackSpeed);
+            this.attackSpeed = attackSpeed;
 
         }
 
         private void OnEnable() {
             enemyBase.onAttack += AttackAnimation;
             enemyBase.onMove += MoveAnimation;
+
             health.OnHealthChanged += HitAnimation;
             health.OnDie += DieAnimation;
-
 
         }
 
@@ -88,6 +90,7 @@ namespace Project.Enemy {
         }
 
         private void AttackAnimation() {
+            animator.SetFloat("AttackSpeed", attackSpeed);
             animator.SetTrigger("Attack");
         }
 

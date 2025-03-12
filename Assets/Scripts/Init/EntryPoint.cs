@@ -9,8 +9,6 @@ namespace Project.Init {
     public class EntryPoint : MonoBehaviour {
         private PlayerController player;
 
-
-
         private DiContainer diContainer;
         private LevelController levelController;
         private AssetProvider assetProvider;
@@ -80,7 +78,8 @@ namespace Project.Init {
         }
 
         private void OnDestroy() {
-            assetProvider.ClearHandles();
+            // наверно стоит перенести в sceneloader
+            assetProvider?.ClearHandles();
         }
 
     }

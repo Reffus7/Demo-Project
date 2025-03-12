@@ -32,13 +32,13 @@ public class LevelController : ITickable, IInitializable {
         if (!roomInfoList.Exists(room => !room.isCleared)) {
             if (isGeneratingMap) return;
 
-            StartNewLevel().Forget();
+            StartNewLevel();
         }
     }
 
     private bool isGeneratingMap = false;
 
-    private async UniTaskVoid StartNewLevel() {
+    private void StartNewLevel() {
 
         isGeneratingMap = true;
 
@@ -46,7 +46,7 @@ public class LevelController : ITickable, IInitializable {
         dataSaver.SaveGameLevel(level);
         onLevelChanged?.Invoke(level);
 
-        await PrepareMap();
+        PrepareMap();
 
         isGeneratingMap = false;
 
@@ -59,13 +59,13 @@ public class LevelController : ITickable, IInitializable {
 
     public void StartLevel(PlayerController player) {
         this.player = player;
-        PrepareMap().Forget();
+        PrepareMap();
 
     }
 
-    private async UniTask PrepareMap() {
+    private void PrepareMap() {
         mapGenerator.ClearMap();
-        await mapGenerator.GenerateMap();
+        mapGenerator.GenerateMap();
         roomInfoList = mapGenerator.GetRoomInfoList();
 
         RoomInfo spawnRoom = roomInfoList[Random.Range(0, roomInfoList.Count)];

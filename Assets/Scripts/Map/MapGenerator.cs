@@ -58,7 +58,7 @@ namespace Project.Map {
 
             RoomConfig roomConfig = await assetProvider.LoadAssetAsync<RoomConfig>(assetReferenceContainer.roomConfig);
 
-            roomSpacing = roomConfig.minMaxSize.y;
+            roomSpacing = roomConfig.minMaxSize.y+2;
         }
 
         public List<RoomInfo> GetRoomInfoList() {
@@ -72,7 +72,7 @@ namespace Project.Map {
             roomInfoList.Clear();
         }
 
-        public async UniTask GenerateMap() {
+        public void GenerateMap() {
             int xPositions = 1;
             int zPositions = 1;
 
@@ -90,7 +90,8 @@ namespace Project.Map {
                         Random.Range(0, zPositions) * roomSpacing
                     );
                 } while (roomInfoList.Exists(room => room.roomPosition == newRoomPos));
-                RoomInfo roomInfo = await roomGenerator.GenerateRoom(newRoomPos);
+
+                RoomInfo roomInfo =  roomGenerator.GenerateRoom(newRoomPos);
                 roomInfoList.Add(roomInfo);
             }
 

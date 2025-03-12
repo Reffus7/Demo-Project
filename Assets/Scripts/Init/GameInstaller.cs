@@ -11,7 +11,6 @@ namespace Project.Init {
     public class GameInstaller : MonoInstaller {
 
         [SerializeField] private Projectile projectilePrefab;
-        //[SerializeField] private MobileCanvas mobileCanvas;
 
         [SerializeField] private Canvas canvas;
 
@@ -19,7 +18,6 @@ namespace Project.Init {
             //from instance
             Container.Bind<Projectile>().FromInstance(projectilePrefab).AsSingle();
             Container.Bind<Canvas>().FromInstance(canvas).AsSingle();  
-            //Container.Bind<MobileCanvas>().FromInstance(mobileCanvas).AsSingle();
 
             //have zenject interfaces
             Container.BindInterfacesAndSelfTo<LevelController>().AsSingle();
@@ -31,13 +29,14 @@ namespace Project.Init {
 
             //simple bind
             Container.Bind<GameInput>().AsSingle();
-            //Container.Bind<AssetProvider>().AsSingle();
             Container.Bind<ZenjectInstantiator>().AsSingle();
 
 
             //my interfaces
 #if UNITY_ANDROID
             Container.Bind<IInputHandler>().To<MobileInputHandler>().AsSingle();
+            //Container.Bind<IInputHandler>().To<DesktopInputHandler>().AsSingle();
+
 #else
             Container.Bind<IInputHandler>().To<DesktopInputHandler>().AsSingle();
 
@@ -48,6 +47,7 @@ namespace Project.Init {
 
             Container.BindInterfacesAndSelfTo<EnemyFactory>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerFactory>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ProjectileFactory>().AsSingle();
 
             Container.Bind<EnemyProgressVarFactory>().AsSingle();
 

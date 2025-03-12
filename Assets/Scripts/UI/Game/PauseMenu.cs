@@ -37,7 +37,7 @@ namespace Project.UI {
         }
 
         private void OnDestroy() {
-            inputHandler.onPause -= PauseGame;
+            if (inputHandler!=null) inputHandler.onPause -= PauseGame;
 
         }
 

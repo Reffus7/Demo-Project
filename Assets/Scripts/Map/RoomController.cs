@@ -3,6 +3,8 @@ using Cysharp.Threading.Tasks;
 using Project.Enemy;
 using System.Threading;
 using Zenject;
+using Project.Factory;
+using System.Collections.Generic;
 
 namespace Project.Map {
 
@@ -13,16 +15,17 @@ namespace Project.Map {
         private CancellationToken cancellationToken;
 
         [Inject]
-        public void Construct(CancellationToken cancellationToken) {
+        public void Construct(CancellationToken cancellationToken, EnemyFactory enemyFactory) {
             this.cancellationToken = cancellationToken;
+            this.enemyFactory = enemyFactory;
         }
 
         public void SetInfo(RoomInfo roomInfo) {
             this.roomInfo = roomInfo;
 
-            foreach (var enemy in roomInfo.enemies) {
-                enemy.gameObject.SetActive(false);
-            }
+            //foreach (var enemy in roomInfo.enemies) {
+            //    enemy.gameObject.SetActive(false);
+            //}
 
             foreach (var portal in roomInfo.portals) {
                 portal.gameObject.SetActive(false);
@@ -30,8 +33,9 @@ namespace Project.Map {
         }
 
         private void Update() {
-            if(roomInfo.isActivated && !roomInfo.isCleared) {
-                if (!roomInfo.enemies.Exists(enemy => enemy != null)) {
+            if (roomInfo.isActivated && !roomInfo.isCleared) {
+                //if (!roomInfo.enemies.Exists(enemy => enemy.isAlive)) {
+                if (!enemies.Exists(enemy => enemy.isAlive)) {
                     RoomCleared();
                 }
             }
@@ -43,14 +47,27 @@ namespace Project.Map {
             }
         }
 
+        private EnemyFactory enemyFactory;
+
+        private List<EnemyBase> enemies = new();
         private async UniTaskVoid StartRoom() {
+            foreach (Vector3 enemyPos in roomInfo.enemyPositions) {
+                EnemyBase enemy = await enemyFactory.Create();
+                enemy.transform.position = enemyPos;
+                enemy.gameObject.SetActive(false);
+                enemies.Add(enemy);
+            }
             roomInfo.isActivated = true;
 
             await UniTask.Delay(1000, cancellationToken: cancellationToken);
 
-            foreach (EnemyBase enemy in roomInfo.enemies) {
-                enemy.gameObject.SetActive(true);
+            foreach (EnemyBase enemy in enemies) { 
+                enemy.gameObject.SetActive(true); 
             }
+
+            //foreach (EnemyBase enemy in roomInfo.enemies) {
+            //    enemy.gameObject.SetActive(true);
+            //}
         }
 
         private void RoomCleared() {
