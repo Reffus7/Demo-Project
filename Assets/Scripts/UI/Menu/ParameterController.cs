@@ -19,7 +19,7 @@ namespace Project.UI {
         [SerializeField] private TextMeshProUGUI pointsLeftText;
         [SerializeField] private LocalizedString pointsLeftLocalizedString;
 
-        [SerializeField] private Parameter[] parameters;
+        [SerializeField] private Parameter[] uiParameters;
 
         public bool haveFreePoints => pointsLeft > 0;
 
@@ -28,6 +28,9 @@ namespace Project.UI {
         private int usedPoints;
 
         private PlayerParameterLevels parameterLevels;
+
+        private Dictionary<PlayerParameterType, Parameter> parameterDict;
+        private Dictionary<PlayerParameterType, ParameterInfo> parameterInfoDict;
 
         private PlayerConfig config;
         private IDataSaver dataSaver;
@@ -43,28 +46,33 @@ namespace Project.UI {
 
             parameterLevels = dataSaver.GetPlayerParameterLevels();
 
-            List<ParameterInfo> parameterInfoList = new List<ParameterInfo>() {
-            new ParameterInfo(parameterLevels.moveSpeed, config.moveSpeedProgress, PlayerParameterNames.moveSpeedLocalizedString),
-            new ParameterInfo(parameterLevels.rotationSpeed, config.rotationSpeedProgress, PlayerParameterNames.rotationSpeedLocalizedString),
+            parameterInfoDict = new Dictionary<PlayerParameterType, ParameterInfo> {
+                { PlayerParameterType.moveSpeed, new ParameterInfo(GetLevel(PlayerParameterType.moveSpeed), config.moveSpeedProgress, PlayerParameterNames.moveSpeedLocalizedString) },
+                { PlayerParameterType.rotationSpeed, new ParameterInfo(GetLevel(PlayerParameterType.rotationSpeed), config.rotationSpeedProgress, PlayerParameterNames.rotationSpeedLocalizedString) },
+                { PlayerParameterType.dodgeDistance, new ParameterInfo(GetLevel(PlayerParameterType.dodgeDistance), config.dodgeDistanceProgress, PlayerParameterNames.dodgeDistanceLocalizedString) },
+                { PlayerParameterType.dodgeDuration, new ParameterInfo(GetLevel(PlayerParameterType.dodgeDuration), config.dodgeDurationProgress, PlayerParameterNames.dodgeDurationLocalizedString) },
+                { PlayerParameterType.dodgeInvincibility, new ParameterInfo(GetLevel(PlayerParameterType.dodgeInvincibility), config.dodgeInvincibilityProgress, PlayerParameterNames.dodgeInvincibilityLocalizedString) },
+                { PlayerParameterType.dodgeCooldown, new ParameterInfo(GetLevel(PlayerParameterType.dodgeCooldown), config.dodgeCooldownProgress, PlayerParameterNames.dodgeCooldownLocalizedString) },
+                { PlayerParameterType.attackRange, new ParameterInfo(GetLevel(PlayerParameterType.attackRange), config.attackRangeProgress, PlayerParameterNames.attackRangeLocalizedString) },
+                { PlayerParameterType.attackSpeed, new ParameterInfo(GetLevel(PlayerParameterType.attackSpeed), config.attackSpeedProgress, PlayerParameterNames.attackSpeedLocalizedString) },
+                { PlayerParameterType.attackDamage, new ParameterInfo(GetLevel(PlayerParameterType.attackDamage), config.attackDamageProgress, PlayerParameterNames.attackDamageLocalizedString) },
+                { PlayerParameterType.maxHealth, new ParameterInfo(GetLevel(PlayerParameterType.maxHealth), config.maxHealthProgress, PlayerParameterNames.maxHealthLocalizedString) }
+            };
 
-            new ParameterInfo(parameterLevels.dodgeDistance, config.dodgeDistanceProgress, PlayerParameterNames.dodgeDistanceLocalizedString),
-            new ParameterInfo(parameterLevels.dodgeDuration, config.dodgeDurationProgress, PlayerParameterNames.dodgeDurationLocalizedString),
-            new ParameterInfo(parameterLevels.dodgeInvincibility, config.dodgeInvincibilityProgress, PlayerParameterNames.dodgeInvincibilityLocalizedString),
-            new ParameterInfo(parameterLevels.dodgeCooldown, config.dodgeCooldownProgress, PlayerParameterNames.dodgeCooldownLocalizedString),
-
-            new ParameterInfo(parameterLevels.attackRange, config.attackRangeProgress, PlayerParameterNames.attackRangeLocalizedString),
-            new ParameterInfo(parameterLevels.attackSpeed, config.attackSpeedProgress, PlayerParameterNames.attackSpeedLocalizedString),
-            new ParameterInfo(parameterLevels.attackDamage, config.attackDamageProgress, PlayerParameterNames.attackDamageLocalizedString),
-
-            new ParameterInfo(parameterLevels.maxHealth, config.maxHealthProgress, PlayerParameterNames.maxHealthLocalizedString),
-        };
+            parameterDict = new Dictionary<PlayerParameterType, Parameter>();
+            for (int i = 0; i < uiParameters.Length; i++) {
+                parameterDict[(PlayerParameterType)i] = uiParameters[i];
+            }
 
             totalPoints = dataSaver.GetPlayerLevel();
 
             usedPoints = 0;
-            for (int i = 0; i < parameterInfoList.Count; i++) {
-                parameters[i].SetInfo(parameterInfoList[i], this);
-                usedPoints += parameters[i].GetLevel();
+
+            foreach (var kvp in parameterInfoDict) {
+                if (parameterDict.TryGetValue(kvp.Key, out var parameter)) {
+                    parameter.SetInfo(kvp.Value, this);
+                    usedPoints += parameter.GetLevel();
+                }
             }
 
             pointsLeft = totalPoints - usedPoints;
@@ -74,6 +82,18 @@ namespace Project.UI {
 
             LocalizationSettings.SelectedLocaleChanged += OnLocaleChanged;
 
+        }
+
+        private int GetLevel(PlayerParameterType type) {
+            return parameterLevels.GetLevel(type);
+        }
+
+        private void SaveParameters() {
+            foreach (var kvp in parameterDict) {
+                parameterLevels.Levels[kvp.Key] = kvp.Value.GetLevel();
+            }
+
+            dataSaver.SavePlayerParameterLevels(parameterLevels);
         }
 
         private void OnLocaleChanged(Locale obj) {
@@ -87,8 +107,8 @@ namespace Project.UI {
         }
 
         private void UpdateParametersUI() {
-            for (int i = 0; i < parameters.Length; i++) {
-                parameters[i].UpdateUI();
+            for (int i = 0; i < uiParameters.Length; i++) {
+                uiParameters[i].UpdateUI();
             }
         }
 
@@ -104,28 +124,9 @@ namespace Project.UI {
             UpdateParametersUI();
 
         }
-
         public void UpdatePointsUI() {
             SetLocalizedStringText();
         }
 
-        private void SaveParameters() {
-            parameterLevels = new PlayerParameterLevels() {
-                moveSpeed = parameters[0].GetLevel(),
-                rotationSpeed = parameters[1].GetLevel(),
-
-                dodgeDistance = parameters[2].GetLevel(),
-                dodgeDuration = parameters[3].GetLevel(),
-                dodgeInvincibility = parameters[4].GetLevel(),
-                dodgeCooldown = parameters[5].GetLevel(),
-
-                attackRange = parameters[6].GetLevel(),
-                attackSpeed = parameters[7].GetLevel(),
-                attackDamage = parameters[8].GetLevel(),
-
-                maxHealth = parameters[9].GetLevel(),
-            };
-            dataSaver.SavePlayerParameterLevels(parameterLevels);
-        }
     }
 }

@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Project.HealthSpace;
+using Project.Input;
 using System.Threading;
 using UnityEngine;
 using Zenject;
@@ -10,12 +11,11 @@ namespace Project.Player {
         private const float attackAnimationNormalizeCoeff = 3.003f;
         private const string animationParameterAttackSpeed = "AttackSpeed";
 
-        // Components
+        private SkinnedMeshRenderer[] skins;
+        
         private PlayerController playerController;
         private Animator animator;
         private PlayerHealth playerHealth;
-
-        SkinnedMeshRenderer[] skins;
 
         private IInputHandler inputHandler;
         private CancellationToken cancellationToken;
@@ -33,14 +33,16 @@ namespace Project.Player {
 
             skins = GetComponentsInChildren<SkinnedMeshRenderer>();
 
-
             animator.SetFloat(animationParameterAttackSpeed, playerController.GetAttackSpeed() * attackAnimationNormalizeCoeff);
 
-            inputHandler.onMove += MoveAnimation;
-            playerController.onAttack += AttackAnimation;
-            playerHealth.OnDie += DieAnimation;
-            playerHealth.OnHealthChanged += HitAnimation;
+            OnEnable();
+        }
 
+        private void OnEnable() {
+            if (inputHandler != null) inputHandler.onMove += MoveAnimation;
+            if (playerController != null) playerController.onAttack += AttackAnimation;
+            if (playerHealth != null) playerHealth.OnDie += DieAnimation;
+            if (playerHealth != null) playerHealth.OnHealthChanged += HitAnimation;
         }
 
         private void OnDisable() {

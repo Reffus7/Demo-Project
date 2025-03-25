@@ -14,13 +14,11 @@ namespace Project.Map {
 
         private int roomCount => (int)roomCountProgress.Value;
 
-        // from config
         private Portal portalPrefab;
         private EnemyProgressVar roomCountProgress;
         private int portalsInRoom;
         private int roomSpacing;
 
-        //from construct
         private RoomGenerator roomGenerator;
         private EnemyProgressVarFactory enemyProgressVarFactory;
         private ZenjectInstantiator zenjectInstantiator;
@@ -58,7 +56,7 @@ namespace Project.Map {
 
             RoomConfig roomConfig = await assetProvider.LoadAssetAsync<RoomConfig>(assetReferenceContainer.roomConfig);
 
-            roomSpacing = roomConfig.minMaxSize.y+2;
+            roomSpacing = roomConfig.minMaxSize.y+5;
         }
 
         public List<RoomInfo> GetRoomInfoList() {

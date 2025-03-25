@@ -10,37 +10,40 @@ namespace Project.HealthSpace {
         private AssetReferenceContainer assetReferenceContainer;
         private AssetProvider assetProvider;
         private IDataSaver dataSaver;
+        LevelController levelController;
 
         [Inject]
         public void Construct(
             IDataSaver dataSaver,
             AssetReferenceContainer assetReferenceContainer,
-            AssetProvider assetProvider
+            AssetProvider assetProvider,
+            LevelController levelController
         ) {
             this.dataSaver = dataSaver;
             this.assetReferenceContainer = assetReferenceContainer;
             this.assetProvider = assetProvider;
+            this.levelController = levelController;
 
             InitAsync().Forget();
 
         }
 
-
         private async UniTaskVoid InitAsync() {
+            levelController.onLevelChanged += _ => RestoreHealth();
+
             PlayerConfig config = await assetProvider.LoadAssetAsync<PlayerConfig>(assetReferenceContainer.playerConfig);
 
             PlayerProgressVar maxHealthProgress = config.maxHealthProgress;
-            maxHealthProgress.SetLevel(dataSaver.GetPlayerParameterLevels().maxHealth);
+            maxHealthProgress.SetLevel(dataSaver.GetPlayerParameterLevels().GetLevel(PlayerParameterType.maxHealth));
             maxHealth = (int)maxHealthProgress.Value;
             health = maxHealth;
         }
 
+        public void RestoreHealth() {
 
-        public void Heal(int heal) {
-            health += heal;
-            if (health > maxHealth) {
-                health = maxHealth;
-            }
+            health = maxHealth;
+            CallOnHealthChanged(health);
         }
+
     }
 }

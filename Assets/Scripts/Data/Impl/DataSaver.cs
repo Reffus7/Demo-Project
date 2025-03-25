@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -10,7 +11,8 @@ namespace Project.Data {
         [MenuItem("Project/Clear all saved data")]
         private static void ClearData() {
             PlayerPrefs.DeleteAll();
-            string json = JsonUtility.ToJson(new PlayerParameterLevels());
+
+            string json = JsonConvert.SerializeObject(new PlayerParameterLevels(), Formatting.Indented);
             File.WriteAllText(playerParametersFilePath, json);
         }
 #endif
@@ -46,13 +48,13 @@ namespace Project.Data {
         public PlayerParameterLevels GetPlayerParameterLevels() {
             if (File.Exists(playerParametersFilePath)) {
                 string json = File.ReadAllText(playerParametersFilePath);
-                return JsonUtility.FromJson<PlayerParameterLevels>(json);
+                return JsonConvert.DeserializeObject<PlayerParameterLevels>(json);
             }
             return new PlayerParameterLevels();
         }
 
         public void SavePlayerParameterLevels(PlayerParameterLevels playerParameterLevels) {
-            string json = JsonUtility.ToJson(playerParameterLevels, true);
+            string json = JsonConvert.SerializeObject(playerParameterLevels, Formatting.Indented);
             File.WriteAllText(playerParametersFilePath, json);
         }
 

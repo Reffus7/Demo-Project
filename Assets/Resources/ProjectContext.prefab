@@ -76,3 +76,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assetReferenceContainer: {fileID: 11400000, guid: b287f54cfbc3cb149ae69772e095d68a,
     type: 2}
+  loadingScreen: {fileID: 5062666714982503712, guid: ccc71780b550d4f41a1723ed705db559,
+    type: 3}

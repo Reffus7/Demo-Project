@@ -11,6 +11,7 @@ namespace Project.Init {
 
             Container.Bind<AssetProvider>().AsSingle();
             Container.Bind<SceneLoader>().AsSingle();
+
         }
 
     }

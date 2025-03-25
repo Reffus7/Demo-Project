@@ -3,6 +3,7 @@ using Project.Config;
 using Project.Enemy;
 using Project.HealthSpace;
 using Project.Progress;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -10,6 +11,8 @@ using Zenject;
 namespace Project.Factory {
 
     public class EnemyFactory : Factory, IInitializable {
+
+        public event Action<EnemyBase> onEnemyCreate;
 
         private EnemyBase[] prefabs;
         private EnemyProgressVar maxHealthProgress;
@@ -55,7 +58,7 @@ namespace Project.Factory {
         public async UniTask<EnemyBase> Create() {
             await UniTask.WaitWhile(() => prefabs == null || enemyConfig == null);
 
-            int enemyType = Random.Range(0, pools.Count);
+            int enemyType = UnityEngine.Random.Range(0, pools.Count);
             ObjectPool currentPool = pools[enemyType];
 
             GameObject enemy = currentPool.Get();
@@ -70,6 +73,8 @@ namespace Project.Factory {
             EnemyAnimator enemyAnimator = enemy.GetComponent<EnemyAnimator>();
             enemyAnimator.enabled = true;
             enemyAnimator.InitAttackSpeed(enemyComponent.GetAttackSpeed());
+
+            onEnemyCreate?.Invoke(enemyComponent);
 
             return enemyComponent;
 

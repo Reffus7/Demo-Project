@@ -7,6 +7,7 @@ using Project.Config;
 using System.Threading;
 using Project.Data;
 using Project.Progress;
+using Project.Input;
 
 namespace Project.Player {
 
@@ -78,15 +79,16 @@ namespace Project.Player {
 
             PlayerParameterLevels levels = dataSaver.GetPlayerParameterLevels();
 
-            moveSpeedProgress.SetLevel(levels.moveSpeed);
-            rotationSpeedProgress.SetLevel(levels.rotationSpeed);
-            dodgeDistanceProgress.SetLevel(levels.dodgeDistance);
-            dodgeDurationProgress.SetLevel(levels.dodgeDuration);
-            dodgeInvincibilityProgress.SetLevel(levels.dodgeInvincibility);
-            dodgeCooldownProgress.SetLevel(levels.dodgeCooldown);
-            attackRangeProgress.SetLevel(levels.attackRange);
-            attackSpeedProgress.SetLevel(levels.attackSpeed);
-            attackDamageProgress.SetLevel(levels.attackDamage);
+            moveSpeedProgress.SetLevel(levels.GetLevel(PlayerParameterType.moveSpeed));
+            rotationSpeedProgress.SetLevel(levels.GetLevel(PlayerParameterType.rotationSpeed));
+            dodgeDistanceProgress.SetLevel(levels.GetLevel(PlayerParameterType.dodgeDistance));
+            dodgeDurationProgress.SetLevel(levels.GetLevel(PlayerParameterType.dodgeDuration));
+            dodgeInvincibilityProgress.SetLevel(levels.GetLevel(PlayerParameterType.dodgeInvincibility));
+            dodgeCooldownProgress.SetLevel(levels.GetLevel(PlayerParameterType.dodgeCooldown));
+            attackRangeProgress.SetLevel(levels.GetLevel(PlayerParameterType.attackRange));
+            attackSpeedProgress.SetLevel(levels.GetLevel(PlayerParameterType.attackSpeed));
+            attackDamageProgress.SetLevel(levels.GetLevel(PlayerParameterType.attackDamage));
+            attackDamageProgress.SetLevel(levels.GetLevel(PlayerParameterType.attackDamage));
 
         }
 
@@ -144,9 +146,8 @@ namespace Project.Player {
         }
 
         private void HandleDeath() {
-            // возможно добавить булевую переменную смерти или вызывать условно у менеджера игра конец игры
-            inputHandler.DisableGameInput();
-            print("Player died");
+            inputHandler.DisableInput();
+            inputMovement = Vector2.zero;
         }
 
         private void Move() {
@@ -203,9 +204,6 @@ namespace Project.Player {
             canDodge = true;
 
         }
-
-
-
 
         private async UniTaskVoid AttackAsync() {
             if (isAttacking) return;

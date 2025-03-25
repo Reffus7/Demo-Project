@@ -540,7 +540,7 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  parameters:
+  uiParameters:
   - {fileID: 1705878664}
   - {fileID: 518244729}
   - {fileID: 707045140}

@@ -50,6 +50,7 @@ namespace Project.UI {
         }
 
         private void ClearMiniMap() {
+            roomIconList.Clear();
             objectPool.ReturnAll();
         }
 

@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using Project.Data;
 using Project.Map;
 using Project.Player;
@@ -39,6 +38,7 @@ public class LevelController : ITickable, IInitializable {
     private bool isGeneratingMap = false;
 
     private void StartNewLevel() {
+        LoadingScreen.instance.Show();
 
         isGeneratingMap = true;
 
@@ -49,6 +49,9 @@ public class LevelController : ITickable, IInitializable {
         PrepareMap();
 
         isGeneratingMap = false;
+
+        LoadingScreen.instance.Hide();
+
 
     }
 

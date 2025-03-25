@@ -19,8 +19,6 @@ namespace Project.UI {
         [SerializeField] private Button exitGameButton;
         [SerializeField] private Button backToMainMenuButton;
 
-        //[SerializeField] private GameObject mainMenu;
-        //[SerializeField] private GameObject upgradeMenu;
         [SerializeField] private CanvasGroup mainMenu;
         [SerializeField] private CanvasGroup upgradeMenu;
 
@@ -74,14 +72,10 @@ namespace Project.UI {
                 canvasGroup.alpha = 0;
                 canvasGroup.interactable = false;
                 canvasGroup.blocksRaycasts = false;
-                //go.SetActive(false);
             }
             menu.alpha = 1;
             menu.interactable = true;
             menu.blocksRaycasts = true;
-
-
-            //menu.SetActive(true);
         }
 
         private void ExitGame() {

@@ -1,31 +1,29 @@
-
 using Project.Config;
 using UnityEngine;
 using Zenject;
 
-public class BootScene : MonoBehaviour {
+namespace Project.Init {
 
-    private AssetReferenceContainer assetReferenceContainer;
-    private SceneLoader sceneLoader;
+    public class BootScene : MonoBehaviour {
+        [SerializeField] private LoadingScreen loadingScreenPrefab;
 
-    [Inject]
-    public void Construct(
-        AssetReferenceContainer assetReferenceContainer, 
-        SceneLoader sceneLoader
-        
-    ) {
-        this.assetReferenceContainer = assetReferenceContainer;
-        this.sceneLoader = sceneLoader;
+        private AssetReferenceContainer assetReferenceContainer;
+        private SceneLoader sceneLoader;
 
+        [Inject]
+        public void Construct(
+            AssetReferenceContainer assetReferenceContainer,
+            SceneLoader sceneLoader
 
-    }
+        ) {
+            this.assetReferenceContainer = assetReferenceContainer;
+            this.sceneLoader = sceneLoader;
+        }
 
-    private void Start() {
-#if UNITY_ANDROID 
-        Application.targetFrameRate = 1000;
-#endif
-        sceneLoader.LoadSceneAsync(assetReferenceContainer.mainMenuScene).Forget();
+        private void Start() {
+            Application.targetFrameRate = 250;
 
-
+            sceneLoader.LoadSceneAsync(assetReferenceContainer.mainMenuScene).Forget();
+        }
     }
 }

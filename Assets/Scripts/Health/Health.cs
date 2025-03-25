@@ -14,6 +14,10 @@ namespace Project.HealthSpace {
         public event Action<int> OnHealthChanged;
         public event Action<bool> OnInvincibilityChanged;
 
+        protected void CallOnHealthChanged(int health) {
+            OnHealthChanged?.Invoke(health);
+        }
+
         public int GetMaxHealth() {
             return maxHealth;
         }

@@ -1,21 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine.Localization;
 
 [Serializable]
 public class PlayerParameterLevels {
-    public int moveSpeed;
-    public int rotationSpeed;
+    public Dictionary<PlayerParameterType, int> Levels = new Dictionary<PlayerParameterType, int>();
 
-    public int dodgeDistance;
-    public int dodgeDuration;
-    public int dodgeInvincibility;
-    public int dodgeCooldown;
+    public int GetLevel(PlayerParameterType type) {
+        return Levels.TryGetValue(type, out int level) ? level : 0;
+    }
+}
 
-    public int attackRange;
-    public int attackSpeed;
-    public int attackDamage;
-
-    public int maxHealth;
+public enum PlayerParameterType {
+    moveSpeed,
+    rotationSpeed,
+    dodgeDistance,
+    dodgeDuration,
+    dodgeInvincibility,
+    dodgeCooldown,
+    attackRange,
+    attackSpeed,
+    attackDamage,
+    maxHealth
 }
 
 public class PlayerParameterNames {

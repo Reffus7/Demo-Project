@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using Project.Config;
 using Project.Factory;
 using Project.Player;
+using Project.UI.Mobile;
 using UnityEngine;
 using Zenject;
 
@@ -43,25 +44,24 @@ namespace Project.Init {
         }
 
         private async UniTaskVoid InitAsync() {
-            GameObject loadingScreenPrefab = await assetProvider.LoadAssetAsync<GameObject>(assetReferenceContainer.loadingScreen);
-            GameObject loadingScreen = Instantiate(loadingScreenPrefab);
-            loadingScreen.SetActive(true);
+
+            LoadingScreen.instance.Show(true);
 
 #if UNITY_ANDROID
             await InitMobile();
 #endif
+
             await InitPlayer();
             await InitUI();
+
             levelController.StartLevel(player);
 
-            await UniTask.Delay(100);
-            loadingScreen.SetActive(false);
-
+            LoadingScreen.instance.Hide(true);
         }
 
         private async UniTask InitMobile() {
             GameObject mobileCanvasPrefab = await assetProvider.LoadAssetAsync<GameObject>(assetReferenceContainer.mobileCanvas);
-            MobileCanvas mobileCanvas=zenjectInstantiator.Instantiate(mobileCanvasPrefab).GetComponent<MobileCanvas>();
+            MobileCanvas mobileCanvas = zenjectInstantiator.Instantiate(mobileCanvasPrefab).GetComponent<MobileCanvas>();
 
             diContainer.Bind<MobileCanvas>().FromInstance(mobileCanvas).AsSingle();
         }
@@ -75,11 +75,13 @@ namespace Project.Init {
         private async UniTask InitUI() {
             GameObject playerUI = await assetProvider.LoadAssetAsync<GameObject>(assetReferenceContainer.playerUI);
             zenjectInstantiator.Instantiate(playerUI, canvas.transform);
-        }
 
-        private void OnDestroy() {
-            // наверно стоит перенести в sceneloader
-            assetProvider?.ClearHandles();
+#if UNITY_ANDROID
+            diContainer.BindInterfacesAndSelfTo<UnityAdsManager>().AsSingle().NonLazy();
+
+            GameObject adsMenu = await assetProvider.LoadAssetAsync<GameObject>(assetReferenceContainer.adsMenuCanvas);
+            zenjectInstantiator.Instantiate(adsMenu);
+#endif
         }
 
     }

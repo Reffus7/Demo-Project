@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using Project.Config;
-using Project.Enemy;
 using Project.Factory;
 using Project.Progress;
 using System.Collections.Generic;
@@ -10,15 +9,10 @@ using Zenject;
 namespace Project.Map {
 
     public class RoomGenerator : IInitializable {
-        //private float wallHeight = 2;
-        //private float wallWidth = 0.1f;
-
         private Transform roomParent;
-        private Transform enemyParent;
 
         private Vector3 roomPosition;
         List<Light> lights = new();
-        List<EnemyBase> enemies = new();
         List<Vector3> enemyPositions = new();
 
         private Vector2 size;
@@ -31,32 +25,18 @@ namespace Project.Map {
             (int)maxEnemiesProgress.Value
             );
 
-        //from config
-        //private Transform wallPrefab;
-        //private Transform floorPrefab;
-        //private Light lightPrefab;
-        //private GameObject[] objectPrefabs;
-
-        //private float minDistanceBetweenObjects;
-        //private float offsetFromWalls;
-
-        //private Vector2Int minMaxSize;
-        //private Vector2Int minMaxObjects;
-        RoomConfig roomConfig;
+        private RoomConfig roomConfig;
 
         private EnemyProgressVar minEnemiesProgress;
         private EnemyProgressVar maxEnemiesProgress;
 
-        //from construct
         private EnemyProgressVarFactory enemyProgressVarFactory;
-        private EnemyFactory enemyFactory;
         private AssetReferenceContainer assetReferenceContainer;
         private AssetProvider assetProvider;
 
         [Inject]
         public void Construct(
             EnemyProgressVarFactory enemyProgressVarFactory,
-            EnemyFactory enemyFactory,
             AssetReferenceContainer assetReferenceContainer,
             AssetProvider assetProvider
 
@@ -64,7 +44,6 @@ namespace Project.Map {
 
 
             this.enemyProgressVarFactory = enemyProgressVarFactory;
-            this.enemyFactory = enemyFactory;
             this.assetProvider = assetProvider;
             this.assetReferenceContainer = assetReferenceContainer;
         }
@@ -77,25 +56,11 @@ namespace Project.Map {
         private async UniTaskVoid InitAsync() {
             roomConfig = await assetProvider.LoadAssetAsync<RoomConfig>(assetReferenceContainer.roomConfig);
 
-            //wallPrefab = roomConfig.wallPrefab;
-            //floorPrefab = roomConfig.floorPrefab;
-            //lightPrefab = roomConfig.lightPrefab;
-            //objectPrefabs = roomConfig.objectPrefabs;
-
-            //wallHeight = roomConfig.wallHeight; // не нужно менять
-            //wallWidth = roomConfig.wallWidth; // не нужно менять
-
-            //minDistanceBetweenObjects = roomConfig.minDistanceBetweenObjects;
-            //offsetFromWalls = roomConfig.offsetFromWalls;
-
-            //minMaxSize = roomConfig.minMaxSize;
-            //minMaxObjects = roomConfig.minMaxObjects;
-
             minEnemiesProgress = enemyProgressVarFactory.Create(roomConfig.minEnemiesProgress);
             maxEnemiesProgress = enemyProgressVarFactory.Create(roomConfig.maxEnemiesProgress);
         }
 
-        public /*async UniTask<RoomInfo>*/ RoomInfo GenerateRoom(Vector3 position) {
+        public RoomInfo GenerateRoom(Vector3 position) {
             roomPosition = position;
 
             size = new Vector2(
@@ -116,27 +81,20 @@ namespace Project.Map {
 #if UNITY_ANDROID
             CreateLight(new Vector3(0, 2, 0));
 #else
-            //CreateLight(new Vector3(sizeHalf.x - 1, 2, sizeHalf.y - 1));
-            //CreateLight(new Vector3(-sizeHalf.x + 1, 2, sizeHalf.y - 1));
-            //CreateLight(new Vector3(sizeHalf.x - 1, 2, -sizeHalf.y + 1));
-            //CreateLight(new Vector3(-sizeHalf.x + 1, 2, -sizeHalf.y + 1));
+            CreateLight(new Vector3(sizeHalf.x - 1, 2, sizeHalf.y - 1));
+            CreateLight(new Vector3(-sizeHalf.x + 1, 2, sizeHalf.y - 1));
+            CreateLight(new Vector3(sizeHalf.x - 1, 2, -sizeHalf.y + 1));
+            CreateLight(new Vector3(-sizeHalf.x + 1, 2, -sizeHalf.y + 1));
 #endif
 
             occupiedPositions = new HashSet<Vector3>();
 
-            CreateEnemyParent();
-
-            enemies = new();
             enemyPositions = new();
             SetEnemyPlaceInRoom(Random.Range(minMaxEnemies.x, minMaxEnemies.y + 1));
 
             SpawnObjectsInRoom(roomConfig.objectPrefabs, Random.Range(roomConfig.minMaxObjects.x, roomConfig.minMaxObjects.y + 1));
 
-            return new RoomInfo { roomParent = roomParent, roomPosition = roomPosition, size = size, lights = lights, enemies = enemies, enemyPositions=enemyPositions };
-        }
-
-        private void CreateEnemyParent() {
-            enemyParent = new GameObject("EnemiesInRoom").transform;
+            return new RoomInfo { roomParent = roomParent, roomPosition = roomPosition, size = size, lights = lights, enemyPositions = enemyPositions };
         }
 
         private void CreateRoomParent() {
@@ -157,25 +115,10 @@ namespace Project.Map {
                 occupiedPositions.Add(objPos);
 
                 enemyPositions.Add(objPos);
-
-                //await CreateAndConfigEnemyAsync(objPos);
-
             }
-
-        }
-
-        private async UniTask CreateAndConfigEnemyAsync(Vector3 objPos) {
-            EnemyBase enemy = await enemyFactory.Create();
-
-            enemies.Add(enemy);
-
-            Transform enemyTransform = enemy.transform;
-            enemyTransform.position = objPos;
-            enemyTransform.SetParent(enemyParent);
         }
 
         private void SpawnObjectsInRoom(GameObject[] prefabs, int amount) {
-
             for (int i = 0; i < amount; i++) {
                 Vector3 objPos = GetValidSpawnPosition();
                 if (objPos == Vector3.zero) return;
@@ -191,12 +134,10 @@ namespace Project.Map {
             float wallWidth = 0.1f;
             Transform wall = Object.Instantiate(roomConfig.wallPrefab, roomPosition + offset, Quaternion.Euler(rotation), roomParent);
             wall.localScale = new Vector3(size, wallHeight, wallWidth);
-
         }
 
         private void CreateLight(Vector3 offset) {
             lights.Add(Object.Instantiate(roomConfig.lightPrefab, roomPosition + offset, Quaternion.identity, roomParent));
-
         }
 
         private Vector3 GetValidSpawnPosition() {

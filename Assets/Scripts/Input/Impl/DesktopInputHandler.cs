@@ -2,38 +2,40 @@ using System;
 using UnityEngine;
 using Zenject;
 
-public class DesktopInputHandler : IInputHandler {
+namespace Project.Input {
 
-    private GameInput gameInput;
+    public class DesktopInputHandler : IInputHandler {
 
-    public event Action onDodge;
-    public event Action onAttack;
-    public event Action onPause;
-    public event Action<Vector2> onMove;
+        private GameInput gameInput;
 
-    [Inject]
-    public void Construct(GameInput gameInput) {
-        this.gameInput = gameInput;
+        public event Action onDodge;
+        public event Action onAttack;
+        public event Action onPause;
+        public event Action<Vector2> onMove;
 
-        gameInput.Game.Move.performed += ctx => onMove?.Invoke(ctx.ReadValue<Vector2>());
-        gameInput.Game.Move.canceled += ctx => onMove?.Invoke(Vector2.zero);
+        [Inject]
+        public void Construct(GameInput gameInput) {
+            this.gameInput = gameInput;
 
-        gameInput.Game.Dodge.performed += ctx => onDodge?.Invoke();
-        gameInput.Game.Attack.performed += ctx => onAttack?.Invoke();
+            gameInput.Game.Move.performed += ctx => onMove?.Invoke(ctx.ReadValue<Vector2>());
+            gameInput.Game.Move.canceled += ctx => onMove?.Invoke(Vector2.zero);
 
-        gameInput.Menu.Pause.performed += ctx => onPause?.Invoke();
+            gameInput.Game.Dodge.performed += ctx => onDodge?.Invoke();
+            gameInput.Game.Attack.performed += ctx => onAttack?.Invoke();
 
-        EnableInput();
+            gameInput.Menu.Pause.performed += ctx => onPause?.Invoke();
+
+            EnableInput();
+        }
+
+        public void EnableInput() {
+            gameInput.Enable();
+        }
+
+        public void DisableInput() {
+            gameInput.Game.Disable();
+
+        }
+
     }
-
-    public void EnableInput() {
-        gameInput.Enable();
-    }
-
-    public void DisableGameInput() {
-        gameInput.Game.Disable();
-
-    }
-
-
 }

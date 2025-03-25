@@ -22,13 +22,13 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  _loadingScreen:
-    m_AssetGUID: ccc71780b550d4f41a1723ed705db559
+  _mobileCanvas:
+    m_AssetGUID: 49f3d763702c2d14a86afbb2dac3bdd2
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  _mobileCanvas:
-    m_AssetGUID: 49f3d763702c2d14a86afbb2dac3bdd2
+  _adsMenuCanvas:
+    m_AssetGUID: 555aab7e214e11947a7ceb78783e624a
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -64,6 +64,11 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   _gameScene:
     m_AssetGUID: a7f4386ca8c6b024aab26ca43b938bc7
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _projectilePrefab:
+    m_AssetGUID: 5e833964b26c9394987012cbe56126b9
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0

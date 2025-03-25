@@ -262,6 +262,8 @@ GameObject:
   - component: {fileID: 6074340926856004242}
   - component: {fileID: 2574566934375538755}
   - component: {fileID: 4771486160575560103}
+  - component: {fileID: 5062666714982503712}
+  - component: {fileID: 5355058499391733323}
   m_Layer: 5
   m_Name: LoadingScreenCanvas
   m_TagString: Untagged
@@ -353,3 +355,27 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5062666714982503712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8572416987722893191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b38d021489a81354089911047efd2c0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!225 &5355058499391733323
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8572416987722893191}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

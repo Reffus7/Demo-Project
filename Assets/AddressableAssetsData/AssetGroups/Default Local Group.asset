@@ -102,6 +102,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e833964b26c9394987012cbe56126b9
+    m_Address: Assets/Prefabs/Projectile/Projectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 555aab7e214e11947a7ceb78783e624a
+    m_Address: Assets/Prefabs/UI/Game/Mobile/AdsMenuCanvas.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 70a5f532b8cd2864c819556250adc1ed, type: 2}
   m_SchemaSet:

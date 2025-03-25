@@ -103,6 +103,10 @@ MonoBehaviour:
     m_Key: LoadingText
     m_Metadata:
       m_Items: []
+  - m_Id: 3548913275985920
+    m_Key: AdsButton
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

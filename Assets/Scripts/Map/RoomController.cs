@@ -23,10 +23,6 @@ namespace Project.Map {
         public void SetInfo(RoomInfo roomInfo) {
             this.roomInfo = roomInfo;
 
-            //foreach (var enemy in roomInfo.enemies) {
-            //    enemy.gameObject.SetActive(false);
-            //}
-
             foreach (var portal in roomInfo.portals) {
                 portal.gameObject.SetActive(false);
             }
@@ -34,7 +30,6 @@ namespace Project.Map {
 
         private void Update() {
             if (roomInfo.isActivated && !roomInfo.isCleared) {
-                //if (!roomInfo.enemies.Exists(enemy => enemy.isAlive)) {
                 if (!enemies.Exists(enemy => enemy.isAlive)) {
                     RoomCleared();
                 }
@@ -65,9 +60,6 @@ namespace Project.Map {
                 enemy.gameObject.SetActive(true); 
             }
 
-            //foreach (EnemyBase enemy in roomInfo.enemies) {
-            //    enemy.gameObject.SetActive(true);
-            //}
         }
 
         private void RoomCleared() {

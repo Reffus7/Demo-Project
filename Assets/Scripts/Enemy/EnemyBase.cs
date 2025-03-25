@@ -9,7 +9,7 @@ using UnityEngine;
 using Zenject;
 
 namespace Project.Enemy {
-    [RequireComponent(typeof(Health), typeof(Rigidbody))]
+    [RequireComponent(typeof(Rigidbody))]
     public abstract class EnemyBase : MonoBehaviour {
         private float attackRange;
         private float fleeRange;
@@ -42,11 +42,9 @@ namespace Project.Enemy {
 
         private ObjectPool enemyObjectPool;
 
-        //components
         private Rigidbody rb;
         private EnemyHealth health;
 
-        // construct
         protected Transform playerTransform;
         protected CancellationToken cancellationToken;
         private EnemyProgressVarFactory enemyProgressVarFactory;

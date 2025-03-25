@@ -1,6 +1,9 @@
+using Cysharp.Threading.Tasks;
 using Project.Config;
 using Project.HealthSpace;
+using Project.Input;
 using Project.Player;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -14,37 +17,55 @@ namespace Project.UI {
 
         [SerializeField] private GameObject root;
 
-        private bool isMenuOpen;
+        private bool isMenuOpen => root.activeSelf;
 
         private IInputHandler inputHandler;
         private SceneLoader sceneLoader;
         private AssetReferenceContainer assetReferenceContainer;
+        private CancellationToken cancellationToken;
 
         [Inject]
         public void Construct(
-            PlayerController player, 
-            IInputHandler inputHandler, 
+            PlayerController player,
+            IInputHandler inputHandler,
             SceneLoader sceneLoader,
-            AssetReferenceContainer assetReferenceContainer
-            
+            AssetReferenceContainer assetReferenceContainer,
+            CancellationToken cancellationToken
+
         ) {
             this.inputHandler = inputHandler;
             this.sceneLoader = sceneLoader;
             this.assetReferenceContainer = assetReferenceContainer;
+            this.cancellationToken = cancellationToken;
 
-            player.GetComponent<Health>().OnDie += PauseGame;
+            player.GetComponent<Health>().OnDie += () => PauseGameWithDelay().Forget();
             inputHandler.onPause += PauseGame;
         }
 
         private void OnDestroy() {
-            if (inputHandler!=null) inputHandler.onPause -= PauseGame;
+            if (inputHandler != null) inputHandler.onPause -= PauseGame;
 
         }
 
+        private const int dieAnimationDurationMiliseconds = 2669;
+
+        private bool startPauseGame = false;
+
+        private async UniTaskVoid PauseGameWithDelay() {
+            if (startPauseGame) return;
+
+            startPauseGame = true;
+
+            await UniTask.Delay(dieAnimationDurationMiliseconds, cancellationToken: cancellationToken);
+
+            PauseGame();
+
+            startPauseGame = false;
+        }
+
         private void PauseGame() {
-            isMenuOpen = !isMenuOpen;
-            root.SetActive(isMenuOpen ? true : false);
-            Time.timeScale = isMenuOpen ? 0 : 1;
+            Time.timeScale = isMenuOpen ? 1 : 0;
+            root.SetActive(isMenuOpen ? false : true);
 
         }
 
